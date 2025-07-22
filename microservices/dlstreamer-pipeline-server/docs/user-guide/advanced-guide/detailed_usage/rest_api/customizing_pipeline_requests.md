@@ -95,7 +95,7 @@ curl localhost:8080/pipelines/user_defined_pipelines/pallet_defect_detection -X 
     }
 }'
 ```
-A local file can also be used as a source. In the following example, `warehouse.avi` that has been copied to `/tmp` from `[WORKDIR]/resources/videos/` is used as video source and Pipeline can be started with below curl request:
+A local file can also be used as a source. In the following example, `warehouse.avi` that has been copied to `/tmp` from `[WORKDIR]/edge-ai-libraries/microservices/dlstreamer-pipeline-server/resources/videos/` is used as video source and Pipeline can be started with below curl request:
 
 ```bash
 curl localhost:8080/pipelines/user_defined_pipelines/pallet_defect_detection -X POST -H \
@@ -318,7 +318,7 @@ The following parameters can be optionally used to customize the stream:
 - path (required): custom string to uniquely identify the stream
 - cache-length (default 30): number of frames to buffer in rtsp pipeline.
 - encoding-quality (default 85): jpeg encoding quality (0 - 100). Lower values increase compression but sacrifice quality.
-- sync-with-source (default True): rate limit processing pipeline to encoded frame rate (e.g. 30 fps)
+- sync-with-source: rate limit processing pipeline to encoded frame rate (e.g. 30 fps). Can be set to either `true` or `false`.
 - sync-with-destination (default True): block processing pipeline if rtsp pipeline is blocked.
 
 > **Note:** If the RTSP stream playback is choppy this may be due to
@@ -328,7 +328,7 @@ The following parameters can be optionally used to customize the stream:
 ### WebRTC
 
 #### Request WebRTC Frame Output
-1. To stream over WebRTC follow the pre-requisite steps for [WebRTC](../how-to-advanced/webrtc-frame-streaming.md) before sending the REST API request.
+1. To stream over WebRTC follow the pre-requisite steps for [WebRTC](../../../how-to-perform-webrtc-frame-streaming.md) before sending the REST API request.
 
 2. Start a pipeline to request frame destination type set as WebRTC and unique `peer-id` value set. For demonstration, peer-id is set as `pallet_defect_detection` in example request below.
 
@@ -367,8 +367,9 @@ curl localhost:8080/pipelines/user_defined_pipelines/pallet_defect_detection -X 
 Use the following parameters to customize the request:
 - type : "webrtc"
 - peer-id (required): custom string to uniquely identify the stream. May contain alphanumeric or underscore `_` characters only.
+- bitrate (default 2048 kbps): The amount of data (in kb per second) used for encoding the stream, which affects the quality of streaming.
 - cache-length (default 30): number of frames to buffer in WebRTC pipeline.
-- sync-with-source (default True): rate limit processing pipeline to encoded frame rate (e.g. 30 fps)
+- sync-with-source: rate limit processing pipeline to encoded frame rate (e.g. 30 fps). Can be set to either `true` or `false`.
 - sync-with-destination (default True): block processing pipeline if WebRTC pipeline is blocked.
 
 > **Note:** If WebRTC stream playback is choppy this may be due to
@@ -378,7 +379,7 @@ Use the following parameters to customize the request:
 
 ## Parameters
 Pipeline parameters as specified in the pipeline definition file, can be set in the REST request.
-For example, below is a the snippets from [WORKDIR]/config/default/config.json file:
+For example, below is a the snippets from [WORKDIR]/edge-ai-libraries/microservices/dlstreamer-pipeline-server/config/default/config.json file:
 
 ```json
 {
